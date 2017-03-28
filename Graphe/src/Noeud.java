@@ -34,7 +34,17 @@ public class Noeud {
 
 		}
 	}
-	public Noeud predecesseur() {//à faire , il faut récupérer le nom du noeud précedent notre noeud
+	public Noeud predecesseur(Graphe G) {//à faire , il faut récupérer le nom du noeud précedent notre noeud
+		int z = this.getIdnoeud();
+		for (int i =0;i<G.hmap.size();i++){
+			Noeud k = G.hmap.get(i);
+			for(int j = 0;j<k.successeurs.size();i++){
+				int xxx = k.successeurs.get(j).getY();
+				if (xxx==z){
+					return k;
+				}
+			}
+		}
 		return this;
 	}
 	public int getIdnoeud() {
