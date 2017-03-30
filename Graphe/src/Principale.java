@@ -7,11 +7,9 @@ public class Principale {
 		HashMap<Integer, Noeud> hmap = new HashMap<Integer, Noeud>();
 		Graphe g = new Graphe(hmap);
 		g.CSV();
-		System.out.println("Inialisation...");
 		DijkstraV1 test=new DijkstraV1(g,g.hmap.get(1));
-		test.init();
-		test.affiche();
-		System.out.println("Fin inialisation.");
+		test.algorithme();
 	}
+	
 
 }
