@@ -1,43 +1,84 @@
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 public class DijkstraV1 {
-	public ArrayList<Noeud>nonmarqués=new ArrayList<Noeud>();
-	public int depart;
-	public int [] source;
-	public int [] parents;
-	public int [] actuel;
-	public Graphe g;
-	public DijkstraV1(int k, Graphe G){
-	depart = k; 
-	g=G;
-	int dimtotale = G.nbSommet();
-	source=new int [dimtotale];
-	parents= new int [dimtotale];
-	actuel = new int [dimtotale];
-	//pluscourtChemin();//en fait je suppose que le prof voulait écrire méthode à la place de classe mais je suis pas sur//fonction pas finie
-	}
-	public void pluscourtChemin(Graphe G){
-	int compteur = 0;
-	for(int i = 0; i<G.nbSommet();i++){
-		nonmarqués.get(i).marque=false;
-		source[i]=0;//. si on suppose que les sommets ont forcément un index >=1
-		parents[i]=0;//idem
-	}
-	source[compteur]=depart;
-	actuel[depart]=-1;//-1 si on suppose qu'on a nommé le premier noeud 0
-	parents[depart]=depart;
-	for(int i=0;i<G.nbSommet();i++){
-		
-	}
-	//calculedistmin();//fonction pas finie
+	ArrayList<Noeud> non_marque=new ArrayList<Noeud>();
+	Noeud source;
+	Graphe g;
 
-}
-	public void calculedistmin(Graphe G){
-		for(int i = 0;i<G.nbSommet();i++){
-			// si il existe un arc entre le premier noeud de G et noeud d'indice i
-			//alors plus court chemin "actuel" = distance entre noeud 0 et noeud 1
-			//parents de noeud de I devrait etre du coup le noeud 0
+	public DijkstraV1(Graphe g, Noeud source)
+	{
+		this.source=source;
+		this.g=g;
+		non_marque=remplirNonMarque(g,source);
+	}
+
+	public static ArrayList<Noeud> remplirNonMarque(Graphe g,Noeud source)
+	{
+		ArrayList<Noeud> non=new ArrayList<Noeud>();
+		for(Entry<Integer, Noeud> entry : g.hmap.entrySet())
+			if(!entry.getValue().equals(source))
+				non.add(entry.getValue());
+
+		return non;
+	}
+
+	public void affiche(){
+		System.out.println("Source :");
+		source.affiche();
+		System.out.println("Graphe : ");
+		g.affiche();
+		for(int i=0;i<non_marque.size();i++)
+		{
+			non_marque.get(i).affiche();
 		}
 	}
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public ArrayList<Noeud> getNon_marque() {
+		return non_marque;
+	}
+
+	public void setNon_marque(ArrayList<Noeud> non_marque) {
+		this.non_marque = non_marque;
+	}
+
+	public Noeud getSource() {
+		return source;
+	}
+
+	public void setSource(Noeud source) {
+		this.source = source;
+	}
+
+	public Graphe getG() {
+		return g;
+	}
+
+	public void setG(Graphe g) {
+		this.g = g;
+	}
+
 }

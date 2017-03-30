@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class Graphe {
 
@@ -14,41 +15,36 @@ public class Graphe {
          this.hmap=b;
      }
 
-     public void ajouteNoeud(Noeud k){
-         if(hmap.get(k.idnoeud)==null)
+     public void ajouteNoeud(Noeud k)
+     {
+         if(!hmap.containsKey(k.idnoeud))
             this.hmap.put(k.idnoeud,k);
      }
 
-     public void ajoutArc(Noeud a,Noeud b,float p){
-    	Arc z = new Arc(a,b,p);
-    	 if(hmap.get(z.getX())==null)
-    		 this.hmap.put(z.getX(),a);
-    	 if(hmap.get(z.getY())==null)
-        	this.hmap.put(z.getY(),b);
-    	  a.ajouteArc(z);
-     	}
 
      public void CSV(){
     	 BufferedReader Buffer = null;
     	 try {
  			String line;
  			Buffer = new BufferedReader(new FileReader("graph1.csv"));
+ 			Noeud a = null;
 
  			while ((line = Buffer.readLine()) != null) {
- 				System.out.println("Raw CSV data: " + line);
-
- 				//System.out.println("Converted ArrayList data: " + crunchifyCSVtotab(Line) + "\n");
- 				@SuppressWarnings("rawtypes")
+				@SuppressWarnings("rawtypes")
 				ArrayList tempo=crunchifyCSVtotab(line);
- 				Noeud a=new Noeud((int)tempo.get(0));
- 				this.ajouteNoeud(a);
+				if(a==null)
+					a=new Noeud((int)tempo.get(0));
+				else
+					if(a.idnoeud!=(int)tempo.get(0))
+					{
+						this.ajouteNoeud(a);
+						a=new Noeud((int)tempo.get(0));
+					}
  				Noeud b=new Noeud((int)tempo.get(1));
- 				this.ajouteNoeud(b);
- 				Arc a2 = new Arc(a,b,(float)tempo.get(2));
- 				a.ajouteArc(a2);
- 				//a.ajoutSuccesseurs(b,(float)tempo.get(2));
- 				//this.ajoutArc(a,b,(float)tempo.get(2));
+ 				a.ajoutSuccesseurs(b,(float)tempo.get(2));
+
  			}
+ 			this.ajouteNoeud(a);
 
  		} catch (IOException e) {
  			e.printStackTrace();
@@ -75,8 +71,13 @@ public class Graphe {
 			}
 		return h;
 	}
- 	public void affiche(){
- 		this.hmap.get(1).affiche();
+ 	public void affiche()
+ 	{
+ 		for(Entry<Integer, Noeud> entry : hmap.entrySet()) {
+
+ 		    Noeud valeur = entry.getValue();
+ 		    valeur.affiche();
+ 		}
  	}
  	public int nbSommet(){
  		return this.hmap.size();
