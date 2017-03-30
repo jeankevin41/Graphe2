@@ -28,10 +28,15 @@ public class DijkstraV1 {
 		source.affiche();
 		System.out.println("Graphe : ");
 		g.affiche();
-		System.out.println("Sommet non marqué :");
+		System.out.print("Sommet non marqué : ");
 		for(int i=0;i<non_marque.size();i++)
 		{
-			non_marque.get(i).affiche();
+			System.out.print(non_marque.get(i).getIdnoeud());
+			if(i==non_marque.size()-1)
+				System.out.println(".");
+			else
+				System.out.print(",");
+
 		}
 	}
 
