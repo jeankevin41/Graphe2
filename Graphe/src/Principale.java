@@ -9,6 +9,7 @@ public class Principale {
 		g.CSV();
 		System.out.println("Inialisation...");
 		DijkstraV1 test=new DijkstraV1(g,g.hmap.get(1));
+		test.init();
 		test.affiche();
 		System.out.println("Fin inialisation.");
 	}

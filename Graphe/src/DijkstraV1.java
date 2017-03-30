@@ -3,6 +3,7 @@ import java.util.Map.Entry;
 
 public class DijkstraV1 {
 	ArrayList<Noeud> non_marque=new ArrayList<Noeud>();
+	double[][] tab;
 	Noeud source;
 	Graphe g;
 
@@ -10,17 +11,30 @@ public class DijkstraV1 {
 	{
 		this.source=source;
 		this.g=g;
-		non_marque=remplirNonMarque(g,source);
+		tab=new double[g.hmap.size()][2];
+
 	}
 
-	public static ArrayList<Noeud> remplirNonMarque(Graphe g,Noeud source)
+	public void init()
 	{
-		ArrayList<Noeud> non=new ArrayList<Noeud>();
+		ArrayList<Noeud> non=new ArrayList<Noeud>(); int i=0;
 		for(Entry<Integer, Noeud> entry : g.hmap.entrySet())
-			if(!entry.getValue().equals(source))
-				non.add(entry.getValue());
+		{
 
-		return non;
+			if(!entry.getValue().equals(source))
+			{
+				non.add(entry.getValue());
+				tab[i][0]=entry.getValue().getIdnoeud();
+				tab[i][1]=Double.POSITIVE_INFINITY;
+			}
+			else
+			{
+				tab[i][0]=entry.getValue().getIdnoeud();
+				tab[i][1]=0;
+			}
+			i++;
+		}
+		non_marque=non;
 	}
 
 	public void affiche(){
@@ -38,6 +52,10 @@ public class DijkstraV1 {
 				System.out.print(",");
 
 		}
+
+		System.out.println("Tableau : ");
+		for(int i=0;i<tab.length;i++)
+			System.out.println(tab[i][0]+" : "+tab[i][1]);
 	}
 
 
