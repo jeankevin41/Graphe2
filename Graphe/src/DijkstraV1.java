@@ -28,6 +28,7 @@ public class DijkstraV1 {
 		source.affiche();
 		System.out.println("Graphe : ");
 		g.affiche();
+		System.out.println("Sommet non marqué :");
 		for(int i=0;i<non_marque.size();i++)
 		{
 			non_marque.get(i).affiche();
