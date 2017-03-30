@@ -54,29 +54,28 @@ public class DijkstraV1 {
 		}
 
 		System.out.println("Tableau : ");
+		this.afficheTab();
+	}
+	
+	
+	public void afficheTab(){
 		for(int i=0;i<tab.length;i++)
 			System.out.println(tab[i][0]+" : "+tab[i][1]);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	public void algorithme()
+	{
+		System.out.println("Initialisation...");
+		this.init();
+		this.affiche();
+		System.out.println("Fin initialisation...");
+		while(!non_marque.isEmpty()) //Tant qu'il y a des sommets non marqués on continue
+		{
+			//Algorithme
+			non_marque.remove(0); //si un sommet est marqué on le supprime de l'arrayList
+		}
+		
+	}
 
 
 
