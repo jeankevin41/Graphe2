@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 public class DijkstraV1 {
@@ -17,15 +18,27 @@ public class DijkstraV1 {
 
 	public void init()
 	{
-		ArrayList<Noeud> non=new ArrayList<Noeud>(); int i=0;
+		ArrayList<Noeud> non=new ArrayList<Noeud>(); 
+		int i=0;
+		Arc a=null;
+		LinkedList<Arc> success=source.getSuccesseurs();
 		for(Entry<Integer, Noeud> entry : g.hmap.entrySet())
 		{
-
+			
 			if(!entry.getValue().equals(source))
 			{
+				for(int j =0;j<success.size();j++)
+				{
+					tab[i][0]=entry.getValue().getIdnoeud();
+					a=success.get(j);
+					if(a.getY()==entry.getValue().getIdnoeud())
+						tab[i][1]=a.getPoids();
+						
+				}
 				non.add(entry.getValue());
-				tab[i][0]=entry.getValue().getIdnoeud();
-				tab[i][1]=Double.POSITIVE_INFINITY;
+				
+				if(tab[i][1]==0.0)
+					tab[i][1]=Double.POSITIVE_INFINITY;
 			}
 			else
 			{
