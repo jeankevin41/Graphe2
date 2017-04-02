@@ -78,81 +78,73 @@ public class DijkstraV1 {
 	
 	public void algorithme()
 	{
+		Noeud b = new Noeud();
+		Noeud d;
+		Noeud c = new Noeud();
 		System.out.println("Initialisation...");
 		this.init();
 		this.affiche();
 		System.out.println("Fin initialisation...");
+		int choix=0;
+		double mini = tab[0][1];
 		ArrayList<ArrayList<Integer>>  gamma = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Float> poids = new ArrayList<Float>(); ;
-		ArrayList<Float> help2 = new ArrayList<Float>();//liste pour stocker toute les autres (arcs) noeuds pas encore fixés et leur poids dans help2
-		ArrayList<Integer> help = new ArrayList<Integer>();//
-		ArrayList<Integer> alpha = new ArrayList<Integer>();
-		ArrayList<Noeud>beta = new ArrayList<Noeud>();//récupère tout les noeuds grâce aux iD
 		while(!non_marque.isEmpty()) //Tant qu'il y a des sommets non marqués on continue
 		{
-
 			 float poids1=0;
 			 float poids2=0;
-			 Noeud b;
-				int a = source.idnoeud;
-			
-
-				for(int j = 0;j<source.successeurs.size();j++){
-					int source2 = source.successeurs.get(j).getX();
-					if (source2==a)
-						poids.set(j, source.successeurs.get(j).getPoids());
-				}
-			float mini = poids.get(0);
-				for (int z = 0; z<poids.size();z++){
-					if (poids.get(z)<mini)
-						mini = poids.get(z);
-				}
-				int choix = 0;
-				for(int i = 0;i<poids.size();i++){// on selectionne le noeud qui vers le quel le poids est le plus petit
-					if (poids.get(i)==mini)
-						choix=i;
-				}
-				 b = g.hmap.get(choix);//b devient le noeud choisi au dessus
-			
-				 for(int w = 0;w<b.successeurs.size();w++){
-					 help.set(w,b.successeurs.get(w).getY());
-					 help2.set(w,b.successeurs.get(w).getPoids());
-				 }
+			for (int i = 1;i<tab[0].length;i++){
+				if(tab[0][i]<mini){
+					mini=tab[0][i];
+			}}	
+				if(mini==Double.POSITIVE_INFINITY)
+				break;
 				
-
-				 for (int a5 = 0 ;a5<b.successeurs.size();a++){//récupère l'id de tout les noeuds en relation directe avec b
-					 alpha.set(a5, b.successeurs.get(a5).getY());
-				 }
-				
-				 for (int a6 =0;a6<g.hmap.size();a6++){
-					 beta.set(a6,g.hmap.get(a6));
-				 }
-				 for (int a7 = 0;a7<b.successeurs.size();a7++){//on va regarder si b et source 2 ont des arcs qui vont vers les mêmes noeuds
-					 int c = b.successeurs.get(a7).getY();
-					 for (int a8 = 0;a8<source.successeurs.size();a8++){
-						 if (source.successeurs.get(a8).getY()==c){//si ils ont des arcs en commun alors on va récuperer leur poids
-							 for (int a9 = 0;a9<b.successeurs.size();a9++){
-								 if (b.successeurs.get(a9).getY()==c)
-									 poids1 = b.successeurs.get(a9).getPoids();
-							 }
-							 for (int a9 = 0;a9<source.successeurs.size();a9++){
-								 if (source.successeurs.get(a9).getY()==c)
-									 poids2 = b.successeurs.get(a9).getPoids();
-
-							 }
-						 }
-						 if(poids1<poids2){//si le poids est meilleur de b a un autre noeud
-							 poids.set(c, poids1);
-							 gamma.get(c).add(b.getIdnoeud());}//on ajoute l'id du noeud parent b dans la liste des parents du noeud dont l'id est c
-
-				     if(poids1>poids2){//si le poids est meilleur de b a un autre noeud
-				    	 poids.set(c, poids2);
-								 gamma.get(c).add(source.getIdnoeud());//on ajoute l'id du noeud parent source2 dans la liste des parents du noeud dont l'id est c
-
-				 }
+			for(int i = 0;i<g.hmap.size();i++){
+				b = g.hmap.get(i);
+				for (int j = 0;j<b.successeurs.size();j++){
+					Arc a = b.successeurs.get(j);
+					if(a.getX()==source.getIdnoeud()&&a.getPoids()==mini){
+						b=g.hmap.get(a.getX());
+						d=g.hmap.get(a.getY());
+						j=b.successeurs.size()+1;
+						i=g.hmap.size()+1;
+					}
+						
+				}
+			}
+			ArrayList<Noeud>stock=new ArrayList<Noeud>();
+	
+			 for (int a5 = 0 ;a5<b.successeurs.size();a5++){//récupère l'id de tout les noeuds en relation directe avec b
+				c=g.hmap.get(b.successeurs.get(a5).getY());
+				stock.add(c);
 			 }
-		}
-			//Algorithme
+			 for (int a7 = 0;a7<b.successeurs.size();a7++){//on va regarder si c et source  ont des arcs qui vont vers les mêmes noeuds
+				 int c2 = b.successeurs.get(a7).getY();
+				 for (int a8 = 0;a8<b.successeurs.size();a8++){
+					 if (b.successeurs.get(a8).getY()==c2){//si ils ont des arcs en commun alors on va récuperer leur poids
+						 for (int a9 = 0;a9<b.successeurs.size();a9++){
+							 if (c.successeurs.get(a9).getY()==c2)
+								 poids1 = c.successeurs.get(a9).getPoids();
+						 }
+						 for (int a9 = 0;a9<b.successeurs.size();a9++){
+							 if (b.successeurs.get(a9).getY()==c2)
+								 poids2 = b.successeurs.get(a9).getPoids();
+
+						 }
+					 }
+					 if(poids1<poids2){//si le poids est meilleur de c a un autre noeud
+							 tab[c.getIdnoeud()][c2]=poids1;
+							 gamma.get(c2).add(b.getIdnoeud());}//on ajoute l'id du noeud parent c dans la liste des parents du noeud dont l'id est c2
+
+				     if(poids1>poids2){//si le poids est meilleur de c a un autre noeud
+								 tab[c.getIdnoeud()][c2]=poids2;
+								 gamma.get(c2).add(b.getIdnoeud());//on ajoute l'id du noeud parent b dans la liste des parents du noeud dont l'id est c2
+
+				 }
+	
+
+		
+				 }}
 			non_marque.remove(choix); //si un sommet est marqué on le supprime de l'arrayList
 		}
 		
