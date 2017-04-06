@@ -19,6 +19,30 @@ public class Noeud {
 		if(successeurs.isEmpty()||!successeurs.contains(new Arc(this,a,p)))
 			this.successeurs.add(new Arc(this,a,p));
 	}
+	
+	public boolean aSuccesseurs(Noeud a){
+		
+		for(int i=0;i<successeurs.size();i++)
+		{
+			if(successeurs.get(i).getY()==a.getIdnoeud())
+				return true;
+		}
+		return false;
+	}
+	
+	public Double cout(Noeud b)
+	{
+		
+		Arc a=null;
+		for(int i=0;i<successeurs.size();i++)
+		{
+			a=successeurs.get(i);
+			if(a.getY()==b.getIdnoeud())
+				return (double) a.getPoids();
+		}
+		
+		return Double.POSITIVE_INFINITY;
+	}
 
 
 	public void affiche(){
