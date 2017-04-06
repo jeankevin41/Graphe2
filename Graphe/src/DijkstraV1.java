@@ -167,12 +167,12 @@ public class DijkstraV1 {
 								
 							}
 				}
-				this.afficheTab();
-				System.out.println();
 				
 			} 
 			
+			
 		}
+		this.affiche();
 		
 	}
 

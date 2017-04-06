@@ -14,6 +14,39 @@ public class Graphe {
      public Graphe(HashMap<Integer,Noeud> b){
          this.hmap=b;
      }
+     
+     public void remplirGraphe(int n, int p)
+     {
+    	 ArrayList<Noeud> a=new ArrayList<Noeud>();
+    	 while (n!=0)
+    	 {
+    		 a.add(new Noeud(n));
+    		 n--;
+    	 }
+    	 int idNoeud1=0; int poids=0; int idNoeud2=(int)(Math.random()*((a.size())));;
+    	 while(p!=0)
+    	 {
+    		
+    		 poids=(int)(Math.random()*(11));
+    		 if(idNoeud1==idNoeud2 && !(a.get(idNoeud1).aSuccesseurs(a.get(idNoeud2))))
+    			idNoeud2=(int)(Math.random()*((a.size())));
+    		 else
+    		 {
+    			 a.get(idNoeud1).ajoutSuccesseurs(a.get(idNoeud2), poids);
+    			 p--;
+    		 }
+    		 if(idNoeud1==a.size()-1)
+    			 idNoeud1=0;
+    		 else 
+    			idNoeud1++;
+    		idNoeud2=(int)(Math.random()*((a.size())));
+    	 }
+    	 
+    	 for(int i=0;i<a.size();i++){
+    		 this.ajouteNoeud(a.get(i));
+    	 }
+     }
+  	
 
      public void ajouteNoeud(Noeud k)
      {
@@ -82,5 +115,6 @@ public class Graphe {
  	public int nbSommet(){
  		return this.hmap.size();
  	}
+ 	
 
 }
